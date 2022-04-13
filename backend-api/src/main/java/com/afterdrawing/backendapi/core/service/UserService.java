@@ -13,7 +13,7 @@ public interface UserService {
 
     User getUserById(Long userId);
 
-
+    User getUserByEmail(String email);
 
 
     User updateUser(Long userId, User userRequest);
