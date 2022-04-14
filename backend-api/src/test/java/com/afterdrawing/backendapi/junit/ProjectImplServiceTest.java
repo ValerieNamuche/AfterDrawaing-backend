@@ -164,6 +164,41 @@ public class ProjectImplServiceTest {
             assertThat(foundProject).isEqualTo(project1);
 
     }
+    @Test
+    @DisplayName("Get  Projects by UserId  and Returns a empty list")
+    public void getProjectsByUserIdAndReturnsEmptyList() {
+
+        // create a User
+        User user1 = new User();
+        user1.setId(1L);
+        user1.setUserName("name1");
+        user1.setFirstName("firstname1");
+        user1.setLastName("lastname1");
+        user1.setEmail("email1");
+        user1.setPassword("password1");
+        user1.setEnabled(false);
+        user1.setSecretKey("");
+        user1.setUsing2FA(false);
+        
+        // Create a empty list of projects
+        List<Project> projects = List.of();
+
+        Pageable pageable = Pageable.ofSize(1);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), projects.size());
+        final Page<Project> page = new PageImpl<>(projects.subList(start, end), pageable, projects.size());
+
+        when(projectRepository.findByUserId(user1.getId(), pageable)).thenReturn(page);
+
+        Page<Project> foundProjects = projectService.getAllProjectsByUserId(user1.getId(), pageable);
 
 
+        assertThat(foundProjects.getContent()).isEqualTo(page.getContent());
+
+
+    }
+        
+
+
+    
 }

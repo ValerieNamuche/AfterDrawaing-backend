@@ -183,4 +183,61 @@ public class InterfaceImplServiceTest {
         assertThat(foundInterface).isEqualTo(anInterface);
     }
         
+    @Test
+    @DisplayName("Get all Interfaces By UserId and returns empty list")
+    public void getAllInterfacesByUserIdAndReturnsEmptyList() {
+
+        
+        // create user  and project
+        User user = new User();
+        user.setId(1L);
+        Project project = new Project();
+        project.setId(1L);
+       
+
+       // Create a List of Interfaces empty
+        List<Interface> interfaces = List.of();
+        
+        Pageable pageable = Pageable.ofSize(1);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), interfaces.size());
+        final Page<Interface> page = new PageImpl<>(interfaces.subList(start, end), pageable, interfaces.size());
+
+        when(interfaceRepository.findByUserId(user.getId(), pageable)).thenReturn(page);
+
+        Page<Interface> foundInterfaces = interfaceService.getAllInterfacesByUserId(user.getId(),pageable);
+
+
+        assertThat(foundInterfaces.getContent()).isEqualTo(page.getContent());
+    }
+
+    @Test
+    @DisplayName("Get all Interfaces By ProjectId and returns empty list")
+    public void getAllInterfacesByProjectIdAndReturnsEmptyList() {
+
+        
+        // create user  and project
+        User user = new User();
+        user.setId(1L);
+        Project project = new Project();
+        project.setId(1L);
+       
+
+       // Create a List of Interfaces empty
+        List<Interface> interfaces = List.of();
+        
+        Pageable pageable = Pageable.ofSize(1);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), interfaces.size());
+        final Page<Interface> page = new PageImpl<>(interfaces.subList(start, end), pageable, interfaces.size());
+
+        when(interfaceRepository.findByProjectId(project.getId(), pageable)).thenReturn(page);
+
+        Page<Interface> foundInterfaces = interfaceService.getAllInterfacesByProjectId(project.getId(),pageable);
+
+
+        assertThat(foundInterfaces.getContent()).isEqualTo(page.getContent());
+        
+    }
+
 }

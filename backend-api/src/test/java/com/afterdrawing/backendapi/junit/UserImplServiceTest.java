@@ -145,6 +145,27 @@ public class UserImplServiceTest {
        
 
     } 
+    @Test
+    @DisplayName("When Get All Users Then Returns a empty list")
+    public void whenGetAllUsersThenReturnsEmptyList() {
 
 
+        // create a empty list of users
+        List<User> users = List.of();
+        // create a pageable object
+        Pageable pageable = Pageable.ofSize(1);
+        final int start = (int) pageable.getOffset();
+        final int end = Math.min((start + pageable.getPageSize()), users.size());
+        final Page<User> page = new PageImpl<>(users.subList(start, end), pageable, users.size());
+
+        // create a page of users
+        when(userRepository.findAll(pageable))
+                .thenReturn(page);
+        // Act
+        Page<User> foundUsers = userService.getAllUsers(pageable);
+        foundUsers.getContent();
+        // Assert
+        assertThat(foundUsers.getContent()).isEqualTo(page.getContent());
+
+    }
 }
