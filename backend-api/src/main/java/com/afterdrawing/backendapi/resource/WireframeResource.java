@@ -8,6 +8,6 @@ public class WireframeResource {
     private String wireFrameName;
 
 
-    private String route;
+    //private String route;
 
 }

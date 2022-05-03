@@ -72,6 +72,16 @@ dependencies {
     testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '7.3.1'
     // https://mvnrepository.com/artifact/io.cucumber/cucumber-spring
     implementation group: 'io.cucumber', name: 'cucumber-spring', version: '7.3.1'
+    // https://mvnrepository.com/artifact/com.sun.jersey.contribs/jersey-multipart
+    implementation group: 'com.sun.jersey.contribs', name: 'jersey-multipart', version: '1.19.4'
+    // https://mvnrepository.com/artifact/org.glassfish.jersey.media/jersey-media-multipart
+    implementation group: 'org.glassfish.jersey.media', name: 'jersey-media-multipart', version: '2.25'
+    //Google Automl vision dependencies
+    //dependencies for automl vision
+    implementation platform('com.google.cloud:libraries-bom:25.1.0')
+    implementation 'com.google.cloud:google-cloud-automl'
+
+
 
 }
 

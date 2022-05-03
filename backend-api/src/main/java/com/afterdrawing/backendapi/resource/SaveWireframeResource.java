@@ -12,8 +12,11 @@ public class SaveWireframeResource {
     private String wireFrameName;
 
     //siguiente desarrollador trabaje la implementación de ruta
+    /*
     @Size(max = 80)
     @Column(name = "route", nullable = false, unique = true)
     private String route;
+
+     */
 
 }
