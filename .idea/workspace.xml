@@ -35,7 +35,10 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/Ernesto/Desktop/Repo Sprint 3/AfterDrawaing-backend/backend-api",
-    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle",
     "spring.configuration.checksum": "c79a488e521908fe77ecf85573a46222"
   }
 }]]></component>
@@ -64,7 +67,7 @@
       <option name="presentableId" value="Default" />
       <updated>1651957648332</updated>
       <workItem from="1651957649725" duration="48000" />
-      <workItem from="1651958142603" duration="286000" />
+      <workItem from="1651958142603" duration="2101000" />
     </task>
     <servers />
   </component>
