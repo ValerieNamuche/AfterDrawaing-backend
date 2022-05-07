@@ -4,125 +4,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c436d0f7-b3d7-4ce4-bf36-a9fba5940f9e" name="Changes" comment="" />
+    <list default="true" id="f6ac7f7c-d99c-48ff-97b7-baf30f33436f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExternalProjectsData">
-    <projectState path="$PROJECT_DIR$/backend-api">
+    <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
   </component>
-  <component name="ExternalProjectsManager">
-    <system id="GRADLE">
-      <state>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="backend-api" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
-      </state>
-    </system>
-  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="28j2KqJttNPH3NcOnAi3nVMpRTV" />
+  <component name="ProjectId" id="28qwue2vpl30K8YD7SRRlBnMr0n" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ernesto/Desktop/Repo Sprint 3/AfterDrawaing-backend&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;SDKs&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;91eb99b5d81d1be3fe8903d8961e7676&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/Ernesto/Desktop/Repo Sprint 3/AfterDrawaing-backend/backend-api"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
-    <configuration name="BackendApiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.afterdrawing.backendapi.BackendApiApplication" />
+    <configuration name="BackendApiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="backend-api.main" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.afterdrawing.backendapi.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.afterdrawing.backendapi.BackendApiApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="AfterDrawaing-backend" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="AfterDrawaing-backend" />
-      <option name="filePath" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="SwaggerCodegen">
-      <option name="activeConfigurationType" value="FILE" />
-      <option name="configurationPath" value="" />
-      <option name="customJreEnabled" value="false" />
-      <option name="customTemplatesPath" value="" />
-      <option name="enableDebugLogging" value="false" />
-      <option name="generateToPath" value="" />
-      <option name="generationParameters">
-        <list />
-      </option>
-      <option name="generatorPath" value="" />
-      <option name="jdkPath" value="Default" />
-      <option name="language" value="" />
-      <option name="specificationPath" value="" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Application.BackendApiApplication" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c436d0f7-b3d7-4ce4-bf36-a9fba5940f9e" name="Changes" comment="" />
-      <created>1651715625276</created>
+      <changelist id="f6ac7f7c-d99c-48ff-97b7-baf30f33436f" name="Changes" comment="" />
+      <created>1651957648332</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1651715625276</updated>
-      <workItem from="1651715666302" duration="4171000" />
-      <workItem from="1651805633363" duration="1016000" />
-      <workItem from="1651813803125" duration="2687000" />
-      <workItem from="1651852119607" duration="3167000" />
-      <workItem from="1651881816086" duration="842000" />
-      <workItem from="1651948561909" duration="642000" />
-      <workItem from="1651955726931" duration="1537000" />
+      <updated>1651957648332</updated>
+      <workItem from="1651957649725" duration="48000" />
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>
