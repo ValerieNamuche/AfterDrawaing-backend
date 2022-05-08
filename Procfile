@@ -1,1 +1,1 @@
-web: java -Dserver.port=$PORT -jar target/AfterDrawaing-backend-0.0.1-SNAPSHOT.jar
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* com.afterdrawing.backendapi
