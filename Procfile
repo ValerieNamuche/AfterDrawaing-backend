@@ -1,1 +1,1 @@
-web java -Dserver.port=$PORT $JAVA_OPTS -jar target/backend-api-1.0.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/backend-api-1.0.jar
