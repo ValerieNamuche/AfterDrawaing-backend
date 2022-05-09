@@ -29,4 +29,6 @@ public interface WireframeService {
     List<Float> getX2();
     List<Float> getY2();
 
+    List<String> getWireframeCode() throws IOException;
+
 }

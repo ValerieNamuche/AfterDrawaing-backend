@@ -25,8 +25,12 @@ import com.google.cloud.automl.v1.PredictResponse;
 import com.google.cloud.automl.v1.PredictionServiceClient;
 import com.google.protobuf.ByteString;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -37,7 +41,7 @@ public class WireframeServiceImpl implements WireframeService {
     @Autowired
     InterfaceRepository interfaceRepository;
 
-    // Definimos una ArrayList para las clases
+    // Definimos una ArrayList para guardar las clases encontradas
     List<String> classes = new ArrayList<String>();
     // Definimos una ArrayList para las posiciones
     //List<List<Float>> listvertex = new ArrayList<>();
@@ -49,6 +53,10 @@ public class WireframeServiceImpl implements WireframeService {
     List<Float> x2list = new ArrayList<Float>();
     //y2
     List<Float> y2list = new ArrayList<Float>();
+
+
+    //code
+    List<String> codigo = new ArrayList<String>();
 
     @Override
     public Page<Wireframe> getAllWireframes(Pageable pageable) {
@@ -90,6 +98,7 @@ public class WireframeServiceImpl implements WireframeService {
         Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
         wireframeRepository.delete(wireframe);
         return ResponseEntity.ok().build();
+
     }
 
     @Override
@@ -162,5 +171,215 @@ public class WireframeServiceImpl implements WireframeService {
     @Override
     public List<Float> getY2() {
         return y2list;
+    }
+
+    @Override
+    public List<String> getWireframeCode() throws IOException {
+        //creo una lista con todas las clases y la comprar con la lista "clases" y voy agregando a la lista "codigo" el codigo de las clases encontradas
+        //Lista de todas las clases
+        //List<String> lista_clases = Arrays.asList("CheckedTextView", "EditText", "Icon", "Image", "Text", "TextButton");
+
+        //for (String clas: classes) {
+        //
+        //}
+        Path p = Paths.get("Code.txt");
+        boolean exists = Files.exists(p);
+        boolean notExists = Files.notExists(p);
+
+        if (exists) {
+            System.out.println("File exists!");
+            Files.delete(p);
+        } else if (notExists) {
+            System.out.println("File doesn't exist!");
+        } else {
+            System.out.println("File's status is unknown!");
+        }
+
+        codigo.add("import 'package:flutter/material.dart';");
+        codigo.add("void main() => runApp(const MyApp());");
+
+        codigo.add("class MyApp extends StatelessWidget");
+        codigo.add("{");
+        codigo.add("    const MyApp({Key? key}) : super(key: key);");
+        codigo.add("    @override");
+        codigo.add("    Widget build(BuildContext context)");
+        codigo.add("    {");
+        codigo.add("        return MaterialApp");
+        codigo.add("            (");
+        codigo.add("            home: Scaffold");
+        codigo.add("                (");
+        codigo.add("                appBar: AppBar(),");
+        codigo.add("                body: Stack");
+        codigo.add("                    (");
+        codigo.add("                    children: <Widget>");
+        codigo.add("                        [");
+
+
+        for (String clase : classes) {
+            if (clase.equals("CheckedTextView")){
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            alignment: Alignment.center,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            padding: const EdgeInsets.all(10),");
+                codigo.add("                            child: Checkbox");
+                codigo.add("                                (");
+                codigo.add("                                value: false,");
+                codigo.add("                                onChanged: (bool? value) {}");
+                codigo.add("                                )");
+                codigo.add("                            ),");
+                /*
+                codigo.add("Checkbox(  \n" +
+                        "  value: this.showvalue,   \n" +
+                        "  onChanged: (bool value) {  \n" +
+                        "    setState(() {  \n" +
+                        "      this.showvalue = value;   \n" +
+                        "    });  \n" +
+                        "  },  \n" +
+                        ")");
+                */
+            }
+            else if (clase.equals("EditText")) {
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            padding: const EdgeInsets.all(10),");
+                codigo.add("                            child: TextField");
+                codigo.add("                                (");
+                codigo.add("                                decoration: const InputDecoration");
+                codigo.add("                                    (");
+                codigo.add("                                    border: OutlineInputBorder(),");
+                codigo.add("                                    labelText: 'Input Text',");
+                codigo.add("                                    )");
+                codigo.add("                                )");
+                codigo.add("                            ),");
+                /*
+                codigo.add("const TextField(\n" +
+                        "  obscureText: true,\n" +
+                        "  decoration: InputDecoration(\n" +
+                        "    border: OutlineInputBorder(),\n" +
+                        "    labelText: 'Password',\n" +
+                        "  ),\n" +
+                        ")");
+                */
+            }
+            else if (clase.equals("Icon")) {
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            padding: const EdgeInsets.all(10),");
+                codigo.add("                            child: Icon");
+                codigo.add("                                (");
+                codigo.add("                                Icons.mail_outline,");//Cambiar icono
+                codigo.add("                                size: 80.0,");
+                codigo.add("                                ),");
+                codigo.add("                            ),");
+                /*
+                codigo.add("Row(\n" +
+                        "  mainAxisAlignment: MainAxisAlignment.spaceAround,\n" +
+                        "  children: const <Widget>[\n" +
+                        "    Icon(\n" +
+                        "      Icons.favorite,\n" +
+                        "      color: Colors.blue,\n" +
+                        "      size: 36.0,\n" +
+                        "    ),\n" +
+                        "  ],\n" +
+                        ")");
+                */
+            }
+            else if (clase.equals("Image")) {
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            height: 120.0,");
+                codigo.add("                            width: 120.0,");
+                codigo.add("                            decoration: BoxDecoration");
+                codigo.add("                                (");
+                codigo.add("                                image: DecorationImage");
+                codigo.add("                                    (");
+                codigo.add("                                    image: AssetImage('path/image.jpg'),");
+                codigo.add("                                    fit: BoxFit.fill,");
+                codigo.add("                                    )");
+                codigo.add("                                    shape: BoxShape.circle,");
+                codigo.add("                                )");
+                codigo.add("                            ),");
+
+                //codigo.add("body: Image.asset('path/image.jpg')");
+            }
+            else if (clase.equals("Text")) {
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            child: Align");
+                codigo.add("                                (");
+                codigo.add("                                alignment: Alignment.centerRight,");
+                codigo.add("                                child: Text");
+                codigo.add("                                    (");
+                codigo.add("                                    'Some text here',");
+                codigo.add("                                    style: TextStyle(),");
+                codigo.add("                                    )");
+                codigo.add("                                )");
+                codigo.add("                            ),");
+                /*
+                codigo.add("Text(\n" +
+                        "  'Hello, $_name! How are you?',\n" +
+                        "  textAlign: TextAlign.center,\n" +
+                        "  overflow: TextOverflow.ellipsis,\n" +
+                        "  style: const TextStyle(fontWeight: FontWeight.bold),\n" +
+                        ")");
+                */
+            }
+            else if (clase.equals("TextButton")) {
+                codigo.add("                        Container");
+                codigo.add("                            (");
+                codigo.add("                            alignment: Alignment.topRight,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            padding: const EdgeInsets.all(10),");
+                codigo.add("                            child: TextButton");
+                codigo.add("                                (");
+                codigo.add("                                onPressed: ()");
+                codigo.add("                                {");
+                codigo.add("                                    //Do Something");
+                codigo.add("                                },");
+                codigo.add("                                child: const Text('Insert Text',),");
+                codigo.add("                                style: TextButton.styleFrom");
+                codigo.add("                                    (");
+                codigo.add("                                    primary: Colors.white,");
+                codigo.add("                                    backgroundColor: Colors.teal,");
+                codigo.add("                                    )");
+                codigo.add("                                )");
+                codigo.add("                            ),");
+                /*
+                codigo.add("TextButton(\n" +
+                        "  style: ButtonStyle(\n" +
+                        "    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),\n" +
+                        "  ),\n" +
+                        "  onPressed: () { },\n" +
+                        "  child: Text('TextButton'),\n" +
+                        ")\n");
+                */
+            }
+            else {
+                codigo.add("No coicidio la clase");
+            }
+        }
+        codigo.add("                        ]");
+        codigo.add("                    )");
+        codigo.add("                )");
+        codigo.add("            );");
+        codigo.add("    }");
+        codigo.add("}");
+
+        FileWriter outFile = new FileWriter("Code.txt",true);
+        BufferedWriter outStream = new BufferedWriter(outFile);
+        for (int i = 0; i < codigo.size(); i++) {
+            outStream.write(codigo.get(i));
+            outStream.newLine();
+        }
+        //text file
+        File initialFile = new File("Code.txt");
+        InputStream targetStream = new FileInputStream(initialFile);
+
+
+        outStream.close();
+        //return targetStream
+        return codigo;
     }
 }

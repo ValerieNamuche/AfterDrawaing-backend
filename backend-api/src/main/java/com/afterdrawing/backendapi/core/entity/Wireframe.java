@@ -66,6 +66,12 @@ public class Wireframe {
     @Column(name = "y2")
     private List<Float> Y2;
 
+    @ElementCollection
+    @CollectionTable(name ="wireframe_code_classes" , joinColumns=@JoinColumn(name="wireframe_id"))
+    @Column(name = "code")
+    private List<String> code;
+
+
     //siguiente desarrollador trabaje la implementación de ruta
     /*
     @Size(max = 80)

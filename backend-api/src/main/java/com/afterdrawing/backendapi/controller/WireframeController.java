@@ -10,12 +10,17 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.apache.commons.io.IOUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JsonParseException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +32,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.afterdrawing.backendapi.core.util.WireframeUtility;
 
 import javax.validation.Valid;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,39 +66,6 @@ public class WireframeController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-
-    @Operation(summary = "Get Wireframe by Id", description = "Get a Wireframe by specifying Id", tags = { "wireframes" })
-    @GetMapping("/interfaces/{interfaceId}/wireframes/{wireframeId}")
-    public WireframeResource getWireframeByIdAndInterfaceId(
-            @Parameter(description="Wireframe Id")
-            @PathVariable(name = "wireframeId") Long wireframeId) {
-        return convertToResource(wireframeService.getWireframeById(wireframeId));
-    }
-
-    /*
-
-    //@Operation(security={ @SecurityRequirement(name="Authorization") })
-    @Operation(summary = "Create Wireframe ", description = "Create a Wireframe", tags = { "wireframes" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Wireframe Created and returned", content = @Content(mediaType = "application/json"))
-    })
-
-    @PostMapping("interfaces/{interfaceId}/wireframes")
-    public WireframeResource createWireframe(@RequestBody SaveWireframeResource resource, @Parameter(description="Wireframe Id")
-    @PathVariable(name = "interfaceId") Long interfaceId)  {
-        Wireframe wireframe = convertToEntity(resource);
-        return convertToResource(wireframeService.saveWireframe(wireframe,interfaceId));
-    }
-    @Operation(summary = "Update Wireframe ", description = "Update a Wireframe", tags = { "wireframes" })
-    @PutMapping("/interfaces/{interfaceId}/wireframes/{wireframeId}")
-    public WireframeResource updateWireframe(@PathVariable(name = "wireframeId") Long wireframeId,
-                                             @Valid @RequestBody SaveWireframeResource resource,
-                                             @PathVariable(name = "interfaceId") Long interfaceId   ) {
-        Wireframe wireframe = convertToEntity(resource);
-        return convertToResource(wireframeService.updateWireframe(wireframeId, wireframe,interfaceId));
-    }
-
-    */
     @Operation( summary = "Delete Wireframe ", description = "Delete a Wireframe", tags = { "wireframes" })
     @DeleteMapping("/wireframes/{wireframeId}")
     public ResponseEntity<?> deleteWireframe(@PathVariable(name = "wireframeId") Long wireframeId) {
@@ -99,6 +73,7 @@ public class WireframeController {
     }
 
     //Image upload
+    @Operation(summary = "Upload Wireframe ", description = "Upload a Wireframe Image", tags = { "wireframes" })
     @PostMapping(value = "/upload/image", consumes = "multipart/form-data")
     public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@RequestParam("file") MultipartFile file)
             throws JsonParseException, JsonMappingException, IOException {
@@ -111,31 +86,33 @@ public class WireframeController {
                 .X1(wireframeService.getX1())
                 .Y1(wireframeService.getY1())
                 .X2(wireframeService.getX2())
-                .Y2(wireframeService.getY2()).build());
+                .Y2(wireframeService.getY2())
+                .code(wireframeService.getWireframeCode()).build());
 
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
                         file.getOriginalFilename()));
     }
-
-    @GetMapping(path = {"/get/image/info/{name}"})
+    @Operation(summary = "Get Wireframe Information", description = "Get Wireframe Information by specifying name", tags = { "wireframes" })
+    @GetMapping(path = {"/get/wireframe/info/{name}"})
     public Wireframe getImageDetails(@PathVariable("name") String name) throws IOException {
 
         final Optional<Wireframe> dbImage = wireframeRepository.findByName(name);
 
         return Wireframe.builder()
+                .id(dbImage.get().getId())
                 .name(dbImage.get().getName())
                 .type(dbImage.get().getType())
-                .image(WireframeUtility.decompressImage(dbImage.get().getImage()))
                 .classes(dbImage.get().getClasses())
                 .X1(dbImage.get().getX1())
                 .Y1(dbImage.get().getY1())
                 .X2(dbImage.get().getX2())
                 .Y2(dbImage.get().getY2())
+                .code(dbImage.get().getCode())
                 .build();
     }
-
-    @GetMapping(path = {"/get/image/{name}"})
+    @Operation(summary = "Get Wireframe Image", description = "Get Wireframe Image by specifying name", tags = { "wireframes" })
+    @GetMapping(path = {"/get/wireframe/{name}"})
     public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
 
         final Optional<Wireframe> dbImage = wireframeRepository.findByName(name);
@@ -145,9 +122,21 @@ public class WireframeController {
                 .contentType(MediaType.valueOf(dbImage.get().getType()))
                 .body(WireframeUtility.decompressImage(dbImage.get().getImage()));
     }
-    
-    
-    // Auto Mapper
+
+    @Operation(summary = "Get Wireframe Code File", description = "Download the wireframe code file ", tags = { "wireframes" })
+    @RequestMapping(path = "/get/wireframe/code/download", method = RequestMethod.GET)
+    public ResponseEntity<Resource> download() throws IOException {
+
+        // ...
+        HttpHeaders headers = new HttpHeaders(); headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Code.txt");
+        InputStreamResource resource = new InputStreamResource(new FileInputStream("Code.txt"));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
+
     private Wireframe convertToEntity(SaveWireframeResource resource) {
         return mapper.map(resource, Wireframe.class);
     }
