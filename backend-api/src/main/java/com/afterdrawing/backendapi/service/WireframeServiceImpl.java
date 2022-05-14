@@ -25,6 +25,7 @@ import com.google.cloud.automl.v1.PredictResponse;
 import com.google.cloud.automl.v1.PredictionServiceClient;
 import com.google.protobuf.ByteString;
 
+import java.awt.desktop.OpenFilesHandler;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -68,31 +69,7 @@ public class WireframeServiceImpl implements WireframeService {
         Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
         return wireframe;
     }
-    /*
-    @Override
-    public Wireframe updateWireframe(Long wireframeId, Wireframe WireframeRequest, Long interfaceId) {
-        Interface anInterface= interfaceRepository.findById(interfaceId).orElseThrow(()-> new ResourceNotFoundException("Interface","Id", interfaceId));
-        if (anInterface ==null){
-            throw new ResourceNotFoundException("Invalid Interface, a Interface no exists with that value" );
-        }
-        Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
-        wireframe.setName(WireframeRequest.getName());
-        wireframe.setRoute(WireframeRequest.getRoute());
 
-        return wireframeRepository.save(wireframe);
-    }
-
-    @Override
-    public Wireframe saveWireframe(Wireframe wireframe,Long interfaceId) {
-        Interface anInterface= interfaceRepository.findById(interfaceId).orElseThrow(()-> new ResourceNotFoundException("Interface","Id", interfaceId));
-        if(wireframe.getAnInterface()== anInterface){
-            throw new ResourceNotFoundException("Invalid wireframe, a wireframe already exists with that value" );
-        }
-
-        wireframe.setAnInterface(anInterface);
-        return wireframeRepository.save(wireframe);
-    }
-    */
     @Override
     public ResponseEntity<?> deleteWireframe(Long wireframeId) {
         Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
@@ -103,6 +80,20 @@ public class WireframeServiceImpl implements WireframeService {
 
     @Override
     public List<String> getClasses(String projectId, String modelId, byte[] content) throws IOException {
+        boolean empty = classes.isEmpty();
+        //boolean notEmpty = Files.notExists(p);
+
+        if (empty) {
+            System.out.println("Lists are empty");
+
+        } else {
+            System.out.println("List are not empty!");
+            classes.clear();
+            x1list.clear();
+            x2list.clear();
+            y1list.clear();
+            y2list.clear();
+        }
 
         try (PredictionServiceClient client = PredictionServiceClient.create()) {
             // Get the full path of the model.
@@ -188,11 +179,24 @@ public class WireframeServiceImpl implements WireframeService {
 
         if (exists) {
             System.out.println("File exists!");
+            System.out.println("File will be deleted!");
             Files.delete(p);
+            System.out.println("File deleted!");
         } else if (notExists) {
             System.out.println("File doesn't exist!");
         } else {
             System.out.println("File's status is unknown!");
+        }
+
+        boolean CodeEmpty = codigo.isEmpty();
+        //boolean notEmpty = Files.notExists(p);
+
+        if (CodeEmpty) {
+            System.out.println("Code List is empty");
+
+        } else {
+            System.out.println("List are not empty!");
+            codigo.clear();
         }
 
         codigo.add("import 'package:flutter/material.dart';");
@@ -227,16 +231,7 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                onChanged: (bool? value) {}");
                 codigo.add("                                )");
                 codigo.add("                            ),");
-                /*
-                codigo.add("Checkbox(  \n" +
-                        "  value: this.showvalue,   \n" +
-                        "  onChanged: (bool value) {  \n" +
-                        "    setState(() {  \n" +
-                        "      this.showvalue = value;   \n" +
-                        "    });  \n" +
-                        "  },  \n" +
-                        ")");
-                */
+
             }
             else if (clase.equals("EditText")) {
                 codigo.add("                        Container");
@@ -252,15 +247,7 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                    )");
                 codigo.add("                                )");
                 codigo.add("                            ),");
-                /*
-                codigo.add("const TextField(\n" +
-                        "  obscureText: true,\n" +
-                        "  decoration: InputDecoration(\n" +
-                        "    border: OutlineInputBorder(),\n" +
-                        "    labelText: 'Password',\n" +
-                        "  ),\n" +
-                        ")");
-                */
+
             }
             else if (clase.equals("Icon")) {
                 codigo.add("                        Container");
@@ -273,18 +260,7 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                size: 80.0,");
                 codigo.add("                                ),");
                 codigo.add("                            ),");
-                /*
-                codigo.add("Row(\n" +
-                        "  mainAxisAlignment: MainAxisAlignment.spaceAround,\n" +
-                        "  children: const <Widget>[\n" +
-                        "    Icon(\n" +
-                        "      Icons.favorite,\n" +
-                        "      color: Colors.blue,\n" +
-                        "      size: 36.0,\n" +
-                        "    ),\n" +
-                        "  ],\n" +
-                        ")");
-                */
+
             }
             else if (clase.equals("Image")) {
                 codigo.add("                        Container");
@@ -303,7 +279,6 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                )");
                 codigo.add("                            ),");
 
-                //codigo.add("body: Image.asset('path/image.jpg')");
             }
             else if (clase.equals("Text")) {
                 codigo.add("                        Container");
@@ -318,14 +293,7 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                    )");
                 codigo.add("                                )");
                 codigo.add("                            ),");
-                /*
-                codigo.add("Text(\n" +
-                        "  'Hello, $_name! How are you?',\n" +
-                        "  textAlign: TextAlign.center,\n" +
-                        "  overflow: TextOverflow.ellipsis,\n" +
-                        "  style: const TextStyle(fontWeight: FontWeight.bold),\n" +
-                        ")");
-                */
+
             }
             else if (clase.equals("TextButton")) {
                 codigo.add("                        Container");
@@ -346,15 +314,7 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                    )");
                 codigo.add("                                )");
                 codigo.add("                            ),");
-                /*
-                codigo.add("TextButton(\n" +
-                        "  style: ButtonStyle(\n" +
-                        "    foregroundColor: MaterialStateProperty.all<Color>(Colors.blue),\n" +
-                        "  ),\n" +
-                        "  onPressed: () { },\n" +
-                        "  child: Text('TextButton'),\n" +
-                        ")\n");
-                */
+
             }
             else {
                 codigo.add("No coicidio la clase");
@@ -374,8 +334,8 @@ public class WireframeServiceImpl implements WireframeService {
             outStream.newLine();
         }
         //text file
-        File initialFile = new File("Code.txt");
-        InputStream targetStream = new FileInputStream(initialFile);
+        //File initialFile = new File("Code.txt");
+        //InputStream targetStream = new FileInputStream(initialFile);
 
 
         outStream.close();
