@@ -169,8 +169,11 @@ public class WireframeServiceImpl implements WireframeService {
         //creo una lista con todas las clases y la comprar con la lista "clases" y voy agregando a la lista "codigo" el codigo de las clases encontradas
         //Lista de todas las clases
         //List<String> lista_clases = Arrays.asList("CheckedTextView", "EditText", "Icon", "Image", "Text", "TextButton");
-
-        //for (String clas: classes) {
+        //Crear variables de las posicciones
+        double x;
+        double x2;
+        double y;
+        double y2;
         //
         //}
         Path p = Paths.get("Code.txt");
@@ -219,11 +222,13 @@ public class WireframeServiceImpl implements WireframeService {
         codigo.add("                        [");
 
 
-        for (String clase : classes) {
-            if (clase.equals("CheckedTextView")){
+        for (int i = 0; i < classes.size(); i++) {
+            x = -1.0+2.0*((x1list.get(i)+x2list.get(i))/2.0);
+            y = -1.0+2.0*((y1list.get(i)+y2list.get(i))/2.0);
+            if (classes.get(i).equals("CheckedTextView")){
                 codigo.add("                        Container");
                 codigo.add("                            (");
-                codigo.add("                            alignment: Alignment.center,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            alignment: Alignment("+ x + ", " + y + "),");//Cambiar posicion de acuerdo a la posicicion
                 codigo.add("                            padding: const EdgeInsets.all(10),");
                 codigo.add("                            child: Checkbox");
                 codigo.add("                                (");
@@ -233,10 +238,10 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                            ),");
 
             }
-            else if (clase.equals("EditText")) {
+            else if (classes.get(i).equals("EditText")) {
                 codigo.add("                        Container");
                 codigo.add("                            (");
-                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            alignment: Alignment("+ x + ", " + y + "),");//Cambiar posicion de acuerdo a la posicicion
                 codigo.add("                            padding: const EdgeInsets.all(10),");
                 codigo.add("                            child: TextField");
                 codigo.add("                                (");
@@ -249,10 +254,10 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                            ),");
 
             }
-            else if (clase.equals("Icon")) {
+            else if (classes.get(i).equals("Icon")) {
                 codigo.add("                        Container");
                 codigo.add("                            (");
-                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            alignment: Alignment("+ x + ", " + y + "),");//Cambiar posicion de acuerdo a la posicicion
                 codigo.add("                            padding: const EdgeInsets.all(10),");
                 codigo.add("                            child: Icon");
                 codigo.add("                                (");
@@ -262,30 +267,25 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                            ),");
 
             }
-            else if (clase.equals("Image")) {
+            else if (classes.get(i).equals("Image")) {
                 codigo.add("                        Container");
                 codigo.add("                            (");
-                codigo.add("                            alignment: Alignment.bottomCenter,");//Cambiar posicion de acuerdo a la posicicion
-                codigo.add("                            height: 120.0,");
-                codigo.add("                            width: 120.0,");
-                codigo.add("                            decoration: BoxDecoration");
+                codigo.add("                            alignment: Alignment("+ x + ", " + y + "),");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            child: Container");
                 codigo.add("                                (");
-                codigo.add("                                image: DecorationImage");
-                codigo.add("                                    (");
-                codigo.add("                                    image: AssetImage('path/image.jpg'),");
-                codigo.add("                                    fit: BoxFit.fill,");
-                codigo.add("                                    )");
-                codigo.add("                                    shape: BoxShape.circle,");
-                codigo.add("                                )");
+                codigo.add("                                child: Image.asset('assets/images/Image.JPG'),");
+                codigo.add("                                height: 150.0,");
+                codigo.add("                                width: 150.0,");
+                codigo.add("                                ),");
                 codigo.add("                            ),");
 
             }
-            else if (clase.equals("Text")) {
+            else if (classes.get(i).equals("Text")) {
                 codigo.add("                        Container");
                 codigo.add("                            (");
                 codigo.add("                            child: Align");
                 codigo.add("                                (");
-                codigo.add("                                alignment: Alignment.centerRight,");
+                codigo.add("                                alignment: Alignment("+ x + ", " + y + "),");
                 codigo.add("                                child: Text");
                 codigo.add("                                    (");
                 codigo.add("                                    'Some text here',");
@@ -295,10 +295,10 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                            ),");
 
             }
-            else if (clase.equals("TextButton")) {
+            else if (classes.get(i).equals("TextButton")) {
                 codigo.add("                        Container");
                 codigo.add("                            (");
-                codigo.add("                            alignment: Alignment.topRight,");//Cambiar posicion de acuerdo a la posicicion
+                codigo.add("                            alignment: Alignment("+ x + ", " + y + "),");//Cambiar posicion de acuerdo a la posicicion
                 codigo.add("                            padding: const EdgeInsets.all(10),");
                 codigo.add("                            child: TextButton");
                 codigo.add("                                (");
@@ -310,7 +310,8 @@ public class WireframeServiceImpl implements WireframeService {
                 codigo.add("                                style: TextButton.styleFrom");
                 codigo.add("                                    (");
                 codigo.add("                                    primary: Colors.white,");
-                codigo.add("                                    backgroundColor: Colors.teal,");
+                codigo.add("                                    backgroundColor: Colors.blue,");
+                codigo.add("                                    fixedSize: Size(120.0,40.0),");
                 codigo.add("                                    )");
                 codigo.add("                                )");
                 codigo.add("                            ),");
