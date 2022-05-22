@@ -31,4 +31,6 @@ public interface WireframeService {
 
     List<String> getWireframeCode() throws IOException;
 
+    byte[] getImage();
+
 }

@@ -25,7 +25,7 @@ public class Wireframe {
     private Long id;
 
     @Size(max = 15)
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = false)
     private String name;
     //wireFrameName
     //columns for image

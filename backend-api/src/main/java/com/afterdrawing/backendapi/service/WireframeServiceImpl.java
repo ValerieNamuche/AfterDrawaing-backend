@@ -25,7 +25,11 @@ import com.google.cloud.automl.v1.PredictResponse;
 import com.google.cloud.automl.v1.PredictionServiceClient;
 import com.google.protobuf.ByteString;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.desktop.OpenFilesHandler;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,6 +59,8 @@ public class WireframeServiceImpl implements WireframeService {
     //y2
     List<Float> y2list = new ArrayList<Float>();
 
+
+    byte[] imageBoxes;
 
     //code
     List<String> codigo = new ArrayList<String>();
@@ -94,6 +100,16 @@ public class WireframeServiceImpl implements WireframeService {
             y1list.clear();
             y2list.clear();
         }
+        //Create rectangles in image
+        InputStream newImage = new ByteArrayInputStream(content);
+        BufferedImage img = ImageIO.read(newImage);
+        Graphics2D g2d = img.createGraphics();
+        g2d.setStroke(new BasicStroke(3));
+
+
+        int width = img.getWidth();
+        int height = img.getHeight();
+
 
         try (PredictionServiceClient client = PredictionServiceClient.create()) {
             // Get the full path of the model.
@@ -117,6 +133,21 @@ public class WireframeServiceImpl implements WireframeService {
                 classes.add(annotationPayload.getDisplayName());
 
                 //listvertex.add(new ArrayList<Float>());
+                if (classes.get(contador).equals("CheckedTextView")){
+                    g2d.setColor(Color.MAGENTA);
+                } else if (classes.get(contador).equals("EditText")) {
+                    g2d.setColor(Color.RED);
+                } else if (classes.get(contador).equals("Icon")) {
+                    g2d.setColor(Color.ORANGE);
+                } else if (classes.get(contador).equals("Image")) {
+                    g2d.setColor(Color.CYAN);
+                } else if (classes.get(contador).equals("Text")) {
+                    g2d.setColor(Color.BLUE);
+                } else if (classes.get(contador).equals("TextButton")) {
+                    g2d.setColor(Color.GREEN);
+                } else {
+                    g2d.setColor(Color.BLACK);
+                }
 
                 System.out.format("Predicted class name: %s\n", annotationPayload.getDisplayName());
                 System.out.format(
@@ -124,6 +155,7 @@ public class WireframeServiceImpl implements WireframeService {
                         annotationPayload.getImageObjectDetection().getScore());
                 BoundingPoly boundingPoly = annotationPayload.getImageObjectDetection().getBoundingBox();
                 System.out.println("Normalized Vertices:");
+
                 for (NormalizedVertex vertex : boundingPoly.getNormalizedVerticesList()) {
                     if (verticeCount == 0){
                         x1list.add(vertex.getX());
@@ -137,10 +169,22 @@ public class WireframeServiceImpl implements WireframeService {
                     System.out.format("\tX: %.2f, Y: %.2f\n", vertex.getX(), vertex.getY());
                     verticeCount++;
                 }
+                //create lines for rectangle
+                g2d.draw(new Line2D.Double(x1list.get(contador) * width, y1list.get(contador) * height, x2list.get(contador) * width, y1list.get(contador) * height));
+                g2d.draw(new Line2D.Double(x2list.get(contador) * width, y1list.get(contador) * height, x2list.get(contador) * width, y2list.get(contador) * height));
+                g2d.draw(new Line2D.Double(x2list.get(contador) * width, y2list.get(contador) * height, x1list.get(contador) * width, y2list.get(contador) * height));
+                g2d.draw(new Line2D.Double(x1list.get(contador) * width, y2list.get(contador) * height, x1list.get(contador) * width, y1list.get(contador) * height));
+                //g2d.drawRect(0, 0, 100, 100);
+                //g2d.dispose();
                 contador++;
+
             }
 
         }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(img,"png",baos);
+        imageBoxes = baos.toByteArray();
+        g2d.dispose();
         return classes;
     }
 
@@ -342,5 +386,10 @@ public class WireframeServiceImpl implements WireframeService {
         outStream.close();
         //return targetStream
         return codigo;
+    }
+
+    @Override
+    public byte[] getImage() {
+        return imageBoxes;
     }
 }
