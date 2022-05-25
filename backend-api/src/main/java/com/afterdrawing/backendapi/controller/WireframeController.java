@@ -81,7 +81,7 @@ public class WireframeController {
         wireframeRepository.save(Wireframe.builder()
                 .name(file.getOriginalFilename())
                 .type(file.getContentType())
-                .classes(wireframeService.getClasses("automl-test-345400", "IOD6723449832175828992", file.getBytes()))
+                .classes(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()))
                 .X1(wireframeService.getX1())
                 .Y1(wireframeService.getY1())
                 .X2(wireframeService.getX2())
