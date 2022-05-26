@@ -17,11 +17,11 @@ public class Project {
     private Long id;
 
 
-    @Size(max = 15)
+    @Size(max = 25)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Size(max = 15)
+    @Size(max = 75)
     @Column(name = "description", nullable = false)
     private String description;
 

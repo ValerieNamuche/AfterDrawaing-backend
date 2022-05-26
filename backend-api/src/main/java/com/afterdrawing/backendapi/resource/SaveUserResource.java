@@ -8,23 +8,23 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SaveUserResource {
-    @Size(max = 15)
+    @Size(max = 25)
     @Column(name = "userName", nullable = false, unique = true)
     private String userName;
 
-    @Size(max = 15)
+    @Size(max = 25)
     @Column(name = "firstName", nullable = false)
     private String firstName;
 
-    @Size(max = 15)
+    @Size(max = 25)
     @Column(name = "lastName", nullable = false)
     private String lastName;
 
-    @Size(max = 15)
+    @Size(max = 50)
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Size(max = 100)
+    @Size(max = 25)
     @Lob
     @Column(name = "password", nullable = false)
     private String password;
