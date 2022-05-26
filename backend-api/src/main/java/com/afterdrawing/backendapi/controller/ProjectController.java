@@ -11,9 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +34,8 @@ public class ProjectController {
             @ApiResponse(responseCode = "200", description = "All Projects returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/users/{userId}/projects")
-    public Page<ProjectResource> getAllProjectssByUserId(@PathVariable(name = "userId") Long userId, Pageable pageable) {
+    public Page<ProjectResource> getAllProjectssByUserId(@PathVariable(name = "userId") Long userId) {
+        Pageable pageable = PageRequest.of(0,1000);
         List<ProjectResource> projects = projectService.getAllProjectsByUserId(userId,pageable)
                 .getContent().stream().map(this::convertToResource).collect(Collectors.toList());
         int count = projects.size();
@@ -94,7 +93,8 @@ public class ProjectController {
             @ApiResponse(responseCode = "200", description = "All Projects returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/projects")
-    public Page<ProjectResource> getAllProjects(Pageable pageable) {
+    public Page<ProjectResource> getAllProjects() {
+        Pageable pageable = PageRequest.of(0,10000, Sort.by("userId"));
         Page<Project> projects = projectService.getAllProjects(pageable);
         List<ProjectResource> resources = projects.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
 
