@@ -44,13 +44,21 @@ public class UserController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-
+/*
     @Operation(summary = "Get User by Id", description = "Get a User by specifying Id", tags = { "users" })
     @GetMapping("/users/{userId}")
     public UserResource getUserById(
             @Parameter(description="User Id")
             @PathVariable(name = "userId") Long userId) {
         return convertToResource(userService.getUserById(userId));
+    }
+*/
+    @Operation(summary = "Get User by email", description = "Get a User by specifying email", tags = { "users" })
+    @GetMapping("/users/{email}")
+    public UserResource getUserByEmail(
+            @Parameter(description="email")
+            @PathVariable(name = "email") String email) {
+        return convertToResource(userService.getUserByEmail(email));
     }
 
     //@Operation()
