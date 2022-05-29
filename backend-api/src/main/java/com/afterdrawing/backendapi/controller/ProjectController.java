@@ -66,6 +66,8 @@ public class ProjectController {
     @PostMapping("/users/{userId}/projects")
     public ProjectResource createProject(@PathVariable(name = "userId") Long userId,
                                          @Valid @RequestBody SaveProjectResource resource) {
+        //SaveProjectResource resourcedos = new SaveProjectResource();
+        //resourcedos.setTitle("hola");
         return convertToResource(projectService.saveProject( convertToEntity(resource),userId));
 
     }

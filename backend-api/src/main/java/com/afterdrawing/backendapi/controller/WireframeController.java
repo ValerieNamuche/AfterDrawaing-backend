@@ -71,9 +71,9 @@ public class WireframeController {
     public ResponseEntity<?> deleteWireframe(@PathVariable(name = "wireframeId") Long wireframeId) {
         return wireframeService.deleteWireframe(wireframeId);
     }
-
-    //Image upload
     /*
+    //Image upload
+
     @Operation(summary = "Upload Wireframe ", description = "Upload a Wireframe Image", tags = { "wireframes" })
     @PostMapping(value = "/upload/image", consumes = "multipart/form-data")
     public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@RequestParam("file") MultipartFile file)
@@ -91,13 +91,41 @@ public class WireframeController {
                 .image(WireframeUtility.compressImage(wireframeService.getImage()))
                 .build());
 
-
+        //return convertToResource(wireframeService.saveWireframe( convertToEntity(resource),userId));
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
                         file.getOriginalFilename()));
     }
     */
 
+    //Image upload
+
+    @Operation(summary = "Upload Wireframe ", description = "Upload a Wireframe Image", tags = { "wireframes" })
+    @PostMapping(value = "/upload/image", consumes = "multipart/form-data")
+    public WireframeResource uplaodImage(@RequestParam("file") MultipartFile file)
+            throws JsonParseException, JsonMappingException, IOException {
+
+        SaveWireframeResource resource = new SaveWireframeResource();
+        resource.setName(file.getOriginalFilename());
+        resource.setType(file.getContentType());
+        resource.setClasses(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()));
+        resource.setX1(wireframeService.getX1());
+        resource.setY1(wireframeService.getY1());
+        resource.setX2(wireframeService.getX2());
+        resource.setY2(wireframeService.getY2());
+        resource.setCode(wireframeService.getWireframeCode());
+        //Esto al final porque se debe geenrar la imagen en getClasses
+        resource.setImage(WireframeUtility.compressImage(wireframeService.getImage()));
+
+        return convertToResource(wireframeService.saveWireframe( convertToEntity(resource)));
+/*
+        return convertToResource(wireframeService.saveWireframe(file.getOriginalFilename(), file.getContentType(), file.getBytes(),
+                wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()),wireframeService.getX1(),
+                wireframeService.getY1(),wireframeService.getX2(),wireframeService.getY2(),wireframeService.getWireframeCode()));
+*/
+    }
+
+/*
     @Operation(summary = "Upload Wireframe By userId and projectId", description = "Upload a Wireframe Image", tags = { "wireframes" })
     @PostMapping(value = "/users/{userId}/projects/{projectId}", consumes = "multipart/form-data")
     public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@PathVariable(name = "userId") Long userId,
@@ -124,19 +152,7 @@ public class WireframeController {
                 .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
                         file.getOriginalFilename()));
     }
-
-    //update wireframe
-/*
-    @Operation(summary = "Update Wireframe By a WireframeRequest, UserId and ProjectId", description = "Send a Wireframe  to User Project", tags = { "wireframes" })
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "A Wireframe update and Returned", content = @Content(mediaType = "application/json"))
-    })
-    @PutMapping("/wireframes/{wireframeId}")
-    public WireframeResource updateWireframe(@PathVariable(name = "wireframeId") Long wireframeId,
-                                         @Valid @RequestBody SaveWireframeResource resource) {
-        return convertToResource(wireframeService.updateWireframe(wireframeId, convertToEntity(resource)));
-    }
-    */
+*/
 
 
     @Operation(summary = "Get Wireframe Information By wireframeId", description = "Get Wireframe Information by specifying wireframeId", tags = { "wireframes" })
@@ -149,8 +165,6 @@ public class WireframeController {
                 .id(dbImage.get().getId())
                 .name(dbImage.get().getName())
                 .type(dbImage.get().getType())
-                .project(dbImage.get().getProject())
-                .user(dbImage.get().getUser())
                 .classes(dbImage.get().getClasses())
                 .X1(dbImage.get().getX1())
                 .Y1(dbImage.get().getY1())

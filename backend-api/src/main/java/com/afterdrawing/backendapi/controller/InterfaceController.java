@@ -42,11 +42,12 @@ public class InterfaceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Interface created", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/users/{userId}/projects/{projectId}/interfaces")
+    @PostMapping("/users/{userId}/projects/{projectId}/wireframes/{wireframeId}/interfaces")
     public InterfaceResource createInterface( @PathVariable(name = "userId") Long userId,
                                               @PathVariable(name = "projectId") Long projectId,
+                                              @PathVariable(name = "wireframeId") Long wireframeId,
                                               @Valid @RequestBody SaveInterfaceResource resource){
-        return convertToResourceInterface(interfaceService.saveInterface( convertToEntityInterface(resource), userId,projectId ));
+        return convertToResourceInterface(interfaceService.saveInterface( convertToEntityInterface(resource), userId, projectId, wireframeId ));
     }
     @Operation(summary = "Get Interface by Project Id", description = "Get All Interfaces by Project Id", tags = { "interfaces" })
     @ApiResponses(value = {
@@ -82,7 +83,7 @@ public class InterfaceController {
             @PathVariable(name = "interfaceId") Long interfaceId) {
         return convertToResourceInterface(interfaceService.getInterfaceById(interfaceId));
     }
-    @Operation(summary = "Update Interfaces", description = "Update Interfaces", tags = { "interfaces" })
+    @Operation(summary = "Update Interface Name", description = "Update Interfaces Name", tags = { "interfaces" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Interface updated", content = @Content(mediaType = "application/json"))
     })

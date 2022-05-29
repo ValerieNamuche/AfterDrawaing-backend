@@ -27,6 +27,7 @@ import com.google.cloud.automl.v1.PredictRequest;
 import com.google.cloud.automl.v1.PredictResponse;
 import com.google.cloud.automl.v1.PredictionServiceClient;
 import com.google.protobuf.ByteString;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -105,22 +106,9 @@ public class WireframeServiceImpl implements WireframeService {
     }
 
     @Override
-    public Wireframe saveWireframe(String name, String type, byte[] image, Long userId, Long projectId, List<String> classes, List<Float> X1, List<Float> Y1, List<Float> X2, List<Float> Y2, List<String> code) {
-        Wireframe newWireframe = new Wireframe();
-        User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
-        Project project = projectRepository.findByIdAndUserId(projectId,userId).orElseThrow(()->new ResourceNotFoundException("Project", "Id", projectId));
-        newWireframe.setName(name);
-        newWireframe.setType(type);
-        newWireframe.setImage(image);
-        newWireframe.setProject(project);
-        newWireframe.setUser(user);
-        newWireframe.setClasses(classes);
-        newWireframe.setX1(X1);
-        newWireframe.setY1(Y1);
-        newWireframe.setX2(X2);
-        newWireframe.setY2(Y2);
-        newWireframe.setCode(code);
-        return wireframeRepository.save(newWireframe);
+    public Wireframe saveWireframe(Wireframe wireframe) {
+
+        return wireframeRepository.save(wireframe);
     }
 
     @Override

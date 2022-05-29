@@ -37,19 +37,8 @@ public class Wireframe {
     private String type;
 
     @Column(name = "image", unique = false, nullable = false, length = 100000)
+    @JsonIgnore
     private byte[] image;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "project_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore //evita que se muestre este atributo
-    private Project project;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore //evita que se muestre este atributo
-    private User user;
 
     //classes and posiciones
 

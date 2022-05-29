@@ -20,7 +20,7 @@ public interface InterfaceService {
 
     Interface updateInterface(Long interfaceId, Interface interfaceRequest);
 
-    Interface saveInterface(Interface newInterface,Long userId,Long projectId);
+    Interface saveInterface(Interface newInterface,Long userId,Long projectId,Long wireframeId);
 
     ResponseEntity<?> deleteInterface(Long interfaceId);
 }
