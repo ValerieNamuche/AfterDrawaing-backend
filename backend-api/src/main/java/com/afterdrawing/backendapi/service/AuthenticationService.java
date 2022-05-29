@@ -70,9 +70,9 @@ public class AuthenticationService {
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
-        //if(passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-            /*User user = userRepository.findByEmail(loginRequest.getEmail())
-                    .orElseThrow(() -> new ResourceNotFoundException("Invalid user"));*/
+
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new ResourceNotFoundException("Invalid user"));
 
         /*if(user.getUsing2FA()){
             return new AuthenticationResource("","",null,"", true);
@@ -86,13 +86,12 @@ public class AuthenticationService {
                     token,
                     //Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()),
                     //jwtCenter.getExpirationDate().toInstant(),
-                    loginRequest.getEmail(),
-                    userDetails.getPassword()
+                    user.getId(),
+                    user.getEmail(),
+                    user.getUserName()
+
             );
             //}
-        //} else {
-            //return new AuthenticationResource("","Credenciales incorrectas","");
-        //}
 
     }
 

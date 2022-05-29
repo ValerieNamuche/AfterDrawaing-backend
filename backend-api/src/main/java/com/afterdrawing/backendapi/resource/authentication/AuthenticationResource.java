@@ -11,7 +11,8 @@ import java.time.Instant;
 public class AuthenticationResource {
     private String authenticationToken;
    // private Instant expiresAt;
+    private Long id;
     private String email;
-    private String password;
+    private String userName;
     //private Boolean using2fa;
 }
