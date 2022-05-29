@@ -2,14 +2,17 @@ package com.afterdrawing.backendapi.core.entity;
 
 
 import lombok.Data;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
 @Data
-public class User {
+public class User  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,10 +39,17 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "enabled")
+    private boolean enabled=true;
 
-    private Boolean using2FA;
+    ////////////////
+    //private Boolean using2FA;
 
-    private String secretKey;
+    //private String secretKey;
 
-    private Boolean enabled;
+    //private Boolean enabled;
+
+    ////////////////
+
+
 }

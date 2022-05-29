@@ -8,7 +8,7 @@ import com.afterdrawing.backendapi.core.repository.UserRepository;
 import com.afterdrawing.backendapi.core.repository.VerificationTokenRepository;
 import com.afterdrawing.backendapi.exception.ResourceNotFoundException;
 import com.afterdrawing.backendapi.resource.authentication.*;
-import com.afterdrawing.backendapi.sercurity.JwtProvider;
+//import com.afterdrawing.backendapi.sercurity.JwtProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,13 +35,13 @@ public class AuthenticationService {
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    private final RefreshTokenService refreshTokenService;
+    //private final RefreshTokenService refreshTokenService;
 
 
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtProvider jwtProvider;
+    //private final JwtProvider jwtProvider;
 
     @Transactional
     public void signUp(SignUpResource signUpResource) {
@@ -53,9 +53,9 @@ public class AuthenticationService {
         user.setUserName(signUpResource.getUserName());
         user.setPassword(passwordEncoder.encode(signUpResource.getPassword()));
 
-        user.setUsing2FA(false);
+        //user.setUsing2FA(false);
 
-        user.setEnabled(false);
+        //user.setEnabled(false);
 
         // Saving the new user to the database
         userRepository.save(user);
@@ -63,6 +63,7 @@ public class AuthenticationService {
 
     }
 
+    /*
     public AuthenticationResource signIn(SignInResource loginRequest) {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         User user = userRepository.findByEmail(loginRequest.getEmail())
@@ -82,8 +83,8 @@ public class AuthenticationService {
                     false);
         }
     }
-
-    public AuthenticationResource refreshToken(RefreshTokenResource refreshTokenRequest){
+    */
+   /* public AuthenticationResource refreshToken(RefreshTokenResource refreshTokenRequest){
         // Refresh the token
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
         String token = jwtProvider.generateTokenWithEmail(refreshTokenRequest.getEmail());
@@ -94,8 +95,8 @@ public class AuthenticationService {
                 Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()),
                 refreshTokenRequest.getEmail(),
                 false);
-    }
-
+    }*/
+/*
     public void signOut(RefreshTokenResource refreshTokenRequest) {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
     }
@@ -174,5 +175,5 @@ public class AuthenticationService {
         // Saving the token and returning it
         verificationTokenRepository.save(verificationToken);
         return token;
-    }
+    }*/
 }
