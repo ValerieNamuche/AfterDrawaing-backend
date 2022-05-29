@@ -71,32 +71,6 @@ public class WireframeController {
     public ResponseEntity<?> deleteWireframe(@PathVariable(name = "wireframeId") Long wireframeId) {
         return wireframeService.deleteWireframe(wireframeId);
     }
-    /*
-    //Image upload
-
-    @Operation(summary = "Upload Wireframe ", description = "Upload a Wireframe Image", tags = { "wireframes" })
-    @PostMapping(value = "/upload/image", consumes = "multipart/form-data")
-    public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@RequestParam("file") MultipartFile file)
-            throws JsonParseException, JsonMappingException, IOException {
-
-        wireframeRepository.save(Wireframe.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .classes(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()))
-                .X1(wireframeService.getX1())
-                .Y1(wireframeService.getY1())
-                .X2(wireframeService.getX2())
-                .Y2(wireframeService.getY2())
-                .code(wireframeService.getWireframeCode())
-                .image(WireframeUtility.compressImage(wireframeService.getImage()))
-                .build());
-
-        //return convertToResource(wireframeService.saveWireframe( convertToEntity(resource),userId));
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
-                        file.getOriginalFilename()));
-    }
-    */
 
     //Image upload
 
@@ -118,41 +92,9 @@ public class WireframeController {
         resource.setImage(WireframeUtility.compressImage(wireframeService.getImage()));
 
         return convertToResource(wireframeService.saveWireframe( convertToEntity(resource)));
-/*
-        return convertToResource(wireframeService.saveWireframe(file.getOriginalFilename(), file.getContentType(), file.getBytes(),
-                wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()),wireframeService.getX1(),
-                wireframeService.getY1(),wireframeService.getX2(),wireframeService.getY2(),wireframeService.getWireframeCode()));
-*/
+
     }
 
-/*
-    @Operation(summary = "Upload Wireframe By userId and projectId", description = "Upload a Wireframe Image", tags = { "wireframes" })
-    @PostMapping(value = "/users/{userId}/projects/{projectId}", consumes = "multipart/form-data")
-    public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@PathVariable(name = "userId") Long userId,
-                                                                    @PathVariable(name = "projectId") Long projectId,
-                                                                    @RequestParam("file") MultipartFile file)
-            throws JsonParseException, JsonMappingException, IOException {
-
-        wireframeRepository.save(Wireframe.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                        .user(wireframeService.getUser(userId))
-                        .project(wireframeService.getProject(projectId, userId))
-                .classes(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()))
-                .X1(wireframeService.getX1())
-                .Y1(wireframeService.getY1())
-                .X2(wireframeService.getX2())
-                .Y2(wireframeService.getY2())
-                .code(wireframeService.getWireframeCode())
-                .image(WireframeUtility.compressImage(wireframeService.getImage()))
-                .build());
-
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
-                        file.getOriginalFilename()));
-    }
-*/
 
 
     @Operation(summary = "Get Wireframe Information By wireframeId", description = "Get Wireframe Information by specifying wireframeId", tags = { "wireframes" })

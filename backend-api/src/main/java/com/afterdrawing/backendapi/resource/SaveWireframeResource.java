@@ -37,21 +37,25 @@ public class SaveWireframeResource {
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_x1" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "x1")
+    @JsonIgnore
     private List<Float> X1;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_y1" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "y1")
+    @JsonIgnore
     private List<Float> Y1;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_x2" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "x2")
+    @JsonIgnore
     private List<Float> X2;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_y2" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "y2")
+    @JsonIgnore
     private List<Float> Y2;
 
     @ElementCollection
