@@ -15,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,11 +43,12 @@ public class InterfaceController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Interface created", content = @Content(mediaType = "application/json"))
     })
-    @PostMapping("/users/{userId}/projects/{projectId}/interfaces")
+    @PostMapping("/users/{userId}/projects/{projectId}/wireframes/{wireframeId}/interfaces")
     public InterfaceResource createInterface( @PathVariable(name = "userId") Long userId,
                                               @PathVariable(name = "projectId") Long projectId,
+                                              @PathVariable(name = "wireframeId") Long wireframeId,
                                               @Valid @RequestBody SaveInterfaceResource resource){
-        return convertToResourceInterface(interfaceService.saveInterface( convertToEntityInterface(resource), userId,projectId ));
+        return convertToResourceInterface(interfaceService.saveInterface( convertToEntityInterface(resource), userId, projectId, wireframeId ));
     }
     @Operation(summary = "Get Interface by Project Id", description = "Get All Interfaces by Project Id", tags = { "interfaces" })
     @ApiResponses(value = {
@@ -54,20 +56,21 @@ public class InterfaceController {
     })
     @GetMapping("/projects/{projectId}/interfaces")
     public Page<InterfaceResource> getAllInterfacesByProjectId(
-            @PathVariable(name = "projectId") Long projectId,
-            Pageable pageable) {
+            @PathVariable(name = "projectId") Long projectId) {
+        Pageable pageable = PageRequest.of(0,5000);
         Page<Interface> interfacePage = interfaceService.getAllInterfacesByProjectId(projectId, pageable);
         List<InterfaceResource> resources = interfacePage.getContent().stream().map(this::convertToResourceInterface).collect(Collectors.toList());
         return new PageImpl<>(resources, pageable, resources.size());
     }
-    @Operation(summary = "Get Interfaces by User Id", description = "Get Interfaces by User Id", tags = { "interfaces" })
+    @Operation(summary = "Get Interfaces by Project Id", description = "Get Interfaces Project Id", tags = { "interfaces" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All Interfaces returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/users/{userId}/interfaces")
     public Page<InterfaceResource> getAllInterfacesByUserId(
-            @PathVariable(name = "userId") Long userId,
-            Pageable pageable) {
+            @PathVariable(name = "userId") Long userId) {
+        Pageable pageable = PageRequest.of(0,5000);
+
         Page<Interface> interfacePage = interfaceService.getAllInterfacesByUserId(userId, pageable);
         List<InterfaceResource> resources = interfacePage.getContent().stream().map(this::convertToResourceInterface).collect(Collectors.toList());
         return new PageImpl<>(resources, pageable, resources.size());
@@ -82,7 +85,7 @@ public class InterfaceController {
             @PathVariable(name = "interfaceId") Long interfaceId) {
         return convertToResourceInterface(interfaceService.getInterfaceById(interfaceId));
     }
-    @Operation(summary = "Update Interfaces", description = "Update Interfaces", tags = { "interfaces" })
+    @Operation(summary = "Update Interface Name", description = "Update Interfaces Name", tags = { "interfaces" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Interface updated", content = @Content(mediaType = "application/json"))
     })

@@ -14,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
@@ -35,14 +36,15 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "All users returned", content = @Content(mediaType = "application/json"))
     })
     @GetMapping("/users")
-    public Page<UserResource> getAllUsers(Pageable pageable) {
+    public Page<UserResource> getAllUsers() {
+        Pageable pageable = PageRequest.of(0, 100000);
         Page<User> usersPage = userService.getAllUsers(pageable);
         List<UserResource> resources = usersPage.getContent().stream().map(this::convertToResource).collect(Collectors.toList());
 
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-
+/*
     @Operation(summary = "Get User by Id", description = "Get a User by specifying Id", tags = { "users" })
     @GetMapping("/users/{userId}")
     public UserResource getUserById(
@@ -50,9 +52,17 @@ public class UserController {
             @PathVariable(name = "userId") Long userId) {
         return convertToResource(userService.getUserById(userId));
     }
+*/
+    @Operation(summary = "Get User by email", description = "Get a User by specifying email", tags = { "users" })
+    @GetMapping("/users/{email}")
+    public UserResource getUserByEmail(
+            @Parameter(description="email")
+            @PathVariable(name = "email") String email) {
+        return convertToResource(userService.getUserByEmail(email));
+    }
 
     //@Operation()
-    @Operation(summary = "Create User ", description = "Create a User", tags = { "users" })
+    @Operation(summary = "Create User (DON'T USE ,USE SIGN-UP FROM AUTHENTICATION-CONTROLLER)", description = "Create a User", tags = { "users" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User Created and returned", content = @Content(mediaType = "application/json"))
     })

@@ -10,11 +10,11 @@ import javax.validation.constraints.Size;
 @Data
 public class SaveProjectResource {
 
-    @Size(max = 15)
+    @Size(max = 25)
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Size(max = 15)
+    @Size(max = 75)
     @Column(name = "description", nullable = false)
     private String description;
 

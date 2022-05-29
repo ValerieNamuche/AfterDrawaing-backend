@@ -17,26 +17,7 @@ class MyApp extends StatelessWidget
                         [
                         Container
                             (
-                            alignment: Alignment(0.375424861907959, -0.7893400192260742),
-                            padding: const EdgeInsets.all(10),
-                            child: TextButton
-                                (
-                                onPressed: ()
-                                {
-                                    //Do Something
-                                },
-                                child: const Text('Insert Text',),
-                                style: TextButton.styleFrom
-                                    (
-                                    primary: Colors.white,
-                                    backgroundColor: Colors.blue,
-                                    fixedSize: Size(120.0,40.0),
-                                    )
-                                )
-                            ),
-                        Container
-                            (
-                            alignment: Alignment(-0.06630212068557739, 0.015328526496887207),
+                            alignment: Alignment(-0.03695952892303467, -0.2570986747741699),
                             padding: const EdgeInsets.all(10),
                             child: TextField
                                 (
@@ -49,7 +30,7 @@ class MyApp extends StatelessWidget
                             ),
                         Container
                             (
-                            alignment: Alignment(-0.04491335153579712, -0.2438388466835022),
+                            alignment: Alignment(-0.013627827167510986, -0.050900280475616455),
                             padding: const EdgeInsets.all(10),
                             child: TextField
                                 (
@@ -62,32 +43,7 @@ class MyApp extends StatelessWidget
                             ),
                         Container
                             (
-                            child: Align
-                                (
-                                alignment: Alignment(8.705854415893555E-4, -0.5696943998336792),
-                                child: Text
-                                    (
-                                    'Some text here',
-                                    style: TextStyle(),
-                                    )
-                                )
-                            ),
-                        Container
-                            (
-                            alignment: Alignment(-0.0531998872756958, 0.2708379030227661),
-                            padding: const EdgeInsets.all(10),
-                            child: TextField
-                                (
-                                decoration: const InputDecoration
-                                    (
-                                    border: OutlineInputBorder(),
-                                    labelText: 'Input Text',
-                                    )
-                                )
-                            ),
-                        Container
-                            (
-                            alignment: Alignment(-0.02543848752975464, 0.6377860307693481),
+                            alignment: Alignment(1.8906593322753906E-4, 0.4501858949661255),
                             padding: const EdgeInsets.all(10),
                             child: TextButton
                                 (
@@ -108,7 +64,7 @@ class MyApp extends StatelessWidget
                             (
                             child: Align
                                 (
-                                alignment: Alignment(-0.47588735818862915, 0.1608750820159912),
+                                alignment: Alignment(-0.0023189783096313477, -0.4633445739746094),
                                 child: Text
                                     (
                                     'Some text here',
@@ -120,19 +76,7 @@ class MyApp extends StatelessWidget
                             (
                             child: Align
                                 (
-                                alignment: Alignment(-0.5552582144737244, -0.0927286148071289),
-                                child: Text
-                                    (
-                                    'Some text here',
-                                    style: TextStyle(),
-                                    )
-                                )
-                            ),
-                        Container
-                            (
-                            child: Align
-                                (
-                                alignment: Alignment(-0.4619626998901367, -0.3508075475692749),
+                                alignment: Alignment(0.47896838188171387, -0.5856468975543976),
                                 child: Text
                                     (
                                     'Some text here',

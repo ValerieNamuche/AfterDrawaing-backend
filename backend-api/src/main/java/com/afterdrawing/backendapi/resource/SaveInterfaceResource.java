@@ -7,7 +7,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class SaveInterfaceResource {
-    @Size(max = 15)
+    @Size(max = 50)
     @Column(name = "interfaceName", nullable = false)
     private String interfaceName;
 }

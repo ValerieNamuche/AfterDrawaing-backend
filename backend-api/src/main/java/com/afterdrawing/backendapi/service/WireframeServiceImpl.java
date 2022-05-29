@@ -1,9 +1,12 @@
 package com.afterdrawing.backendapi.service;
 
 import com.afterdrawing.backendapi.core.entity.Interface;
+import com.afterdrawing.backendapi.core.entity.Project;
 import com.afterdrawing.backendapi.core.entity.User;
 import com.afterdrawing.backendapi.core.entity.Wireframe;
 import com.afterdrawing.backendapi.core.repository.InterfaceRepository;
+import com.afterdrawing.backendapi.core.repository.ProjectRepository;
+import com.afterdrawing.backendapi.core.repository.UserRepository;
 import com.afterdrawing.backendapi.core.repository.WireframeRepository;
 import com.afterdrawing.backendapi.core.service.WireframeService;
 import com.afterdrawing.backendapi.exception.ResourceNotFoundException;
@@ -24,6 +27,7 @@ import com.google.cloud.automl.v1.PredictRequest;
 import com.google.cloud.automl.v1.PredictResponse;
 import com.google.cloud.automl.v1.PredictionServiceClient;
 import com.google.protobuf.ByteString;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -45,6 +49,11 @@ public class WireframeServiceImpl implements WireframeService {
     WireframeRepository wireframeRepository;
     @Autowired
     InterfaceRepository interfaceRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     // Definimos una ArrayList para guardar las clases encontradas
     List<String> classes = new ArrayList<String>();
@@ -72,16 +81,46 @@ public class WireframeServiceImpl implements WireframeService {
 
     @Override
     public Wireframe getWireframeById(Long wireframeId) {
-        Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
-        return wireframe;
+        return wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
+        //return wireframe;
     }
+/*
+    @Override
+    public Wireframe updateWireframe(Long wireframeId, Wireframe wireframeRequest) {
 
+        Wireframe wireframe = wireframeRepository.findById(wireframeId)
+                .orElseThrow(() -> new ResourceNotFoundException("Wireframe", "id", wireframeId));
+        wireframe.setProject(wireframeRequest.getProject());
+        wireframe.setUser(wireframeRequest.getUser());
+
+        return wireframeRepository.save(wireframe);
+
+    }
+*/
     @Override
     public ResponseEntity<?> deleteWireframe(Long wireframeId) {
         Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(() -> new ResourceNotFoundException("Wireframe", "Id", wireframeId));
         wireframeRepository.delete(wireframe);
         return ResponseEntity.ok().build();
 
+    }
+
+    @Override
+    public Wireframe saveWireframe(Wireframe wireframe) {
+
+        return wireframeRepository.save(wireframe);
+    }
+
+    @Override
+    public User getUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
+        return user;
+    }
+
+    @Override
+    public Project getProject(Long projectId, Long userId) {
+        Project project = projectRepository.findByIdAndUserId(projectId,userId).orElseThrow(()->new ResourceNotFoundException("Project", "Id", projectId));
+        return project;
     }
 
     @Override

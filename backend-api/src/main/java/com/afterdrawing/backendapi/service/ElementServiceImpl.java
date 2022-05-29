@@ -54,8 +54,10 @@ public class ElementServiceImpl implements ElementService {
     @Override
     public Element updateElement(Long elementId, Element elementRequest) {
         return elementRepository.findById(elementId).map(element -> {
-            element.setPositionX(elementRequest.getPositionX());
-            element.setPositionY(elementRequest.getPositionY());
+            element.setPositionX1(elementRequest.getPositionX1());
+            element.setPositionY1(elementRequest.getPositionY1());
+            element.setPositionX2(elementRequest.getPositionX2());
+            element.setPositionY2(elementRequest.getPositionY2());
             element.setElementType(elementRequest.getElementType());
 
             return elementRepository.save(element);

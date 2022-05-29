@@ -1,9 +1,9 @@
 package com.afterdrawing.backendapi.controller;
 
+import com.afterdrawing.backendapi.core.entity.User;
 import com.afterdrawing.backendapi.core.entity.Wireframe;
 import com.afterdrawing.backendapi.core.service.WireframeService;
-import com.afterdrawing.backendapi.resource.SaveWireframeResource;
-import com.afterdrawing.backendapi.resource.WireframeResource;
+import com.afterdrawing.backendapi.resource.*;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -54,7 +54,7 @@ public class WireframeController {
     @Autowired
     WireframeRepository wireframeRepository;
 
-    @Operation(summary = "Get wireframes", description = "Get All wireframes by Pages", tags = { "wireframes" })
+    @Operation(summary = "Get wireframes (NO FUNCIONAL)", description = "Get All wireframes by Pages", tags = { "wireframes" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All wireframes returned", content = @Content(mediaType = "application/json"))
     })
@@ -66,40 +66,42 @@ public class WireframeController {
         return new PageImpl<>(resources, pageable, resources.size());
     }
 
-    @Operation( summary = "Delete Wireframe ", description = "Delete a Wireframe", tags = { "wireframes" })
+    @Operation( summary = "Delete Wireframe By wireframeId", description = "Delete a Wireframe", tags = { "wireframes" })
     @DeleteMapping("/wireframes/{wireframeId}")
     public ResponseEntity<?> deleteWireframe(@PathVariable(name = "wireframeId") Long wireframeId) {
         return wireframeService.deleteWireframe(wireframeId);
     }
 
     //Image upload
+
     @Operation(summary = "Upload Wireframe ", description = "Upload a Wireframe Image", tags = { "wireframes" })
     @PostMapping(value = "/upload/image", consumes = "multipart/form-data")
-    public ResponseEntity<WireframeImageUploadResponse> uplaodImage(@RequestParam("file") MultipartFile file)
+    public WireframeResource uplaodImage(@RequestParam("file") MultipartFile file)
             throws JsonParseException, JsonMappingException, IOException {
 
-        wireframeRepository.save(Wireframe.builder()
-                .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                .classes(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()))
-                .X1(wireframeService.getX1())
-                .Y1(wireframeService.getY1())
-                .X2(wireframeService.getX2())
-                .Y2(wireframeService.getY2())
-                .code(wireframeService.getWireframeCode())
-                .image(WireframeUtility.compressImage(wireframeService.getImage()))
-                .build());
+        SaveWireframeResource resource = new SaveWireframeResource();
+        resource.setName(file.getOriginalFilename());
+        resource.setType(file.getContentType());
+        resource.setClasses(wireframeService.getClasses("green-wares-350602", "IOD1693424928147111936", file.getBytes()));
+        resource.setX1(wireframeService.getX1());
+        resource.setY1(wireframeService.getY1());
+        resource.setX2(wireframeService.getX2());
+        resource.setY2(wireframeService.getY2());
+        resource.setCode(wireframeService.getWireframeCode());
+        //Esto al final porque se debe geenrar la imagen en getClasses
+        resource.setImage(WireframeUtility.compressImage(wireframeService.getImage()));
 
+        return convertToResource(wireframeService.saveWireframe( convertToEntity(resource)));
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new WireframeImageUploadResponse("Image uploaded successfully: " +
-                        file.getOriginalFilename()));
     }
-    @Operation(summary = "Get Wireframe Information", description = "Get Wireframe Information by specifying name", tags = { "wireframes" })
-    @GetMapping(path = {"/get/wireframe/info/{name}"})
-    public Wireframe getImageDetails(@PathVariable("name") String name) throws IOException {
 
-        final Optional<Wireframe> dbImage = wireframeRepository.findByName(name);
+
+
+    @Operation(summary = "Get Wireframe Information By wireframeId", description = "Get Wireframe Information by specifying wireframeId", tags = { "wireframes" })
+    @GetMapping(path = {"/get/wireframe/info/{wireframeId}"})
+    public Wireframe getImageDetails(@PathVariable("wireframeId") Long wireframeId) throws IOException {
+
+        final Optional<Wireframe> dbImage = wireframeRepository.findById(wireframeId);
 
         return Wireframe.builder()
                 .id(dbImage.get().getId())
@@ -113,11 +115,12 @@ public class WireframeController {
                 .code(dbImage.get().getCode())
                 .build();
     }
-    @Operation(summary = "Get Wireframe Image", description = "Get Wireframe Image by specifying name", tags = { "wireframes" })
-    @GetMapping(path = {"/get/wireframe/{name}"})
-    public ResponseEntity<byte[]> getImage(@PathVariable("name") String name) throws IOException {
 
-        final Optional<Wireframe> dbImage = wireframeRepository.findByName(name);
+    @Operation(summary = "Get Wireframe Image By wireframeId", description = "Get Wireframe Image by specifying wireframeId", tags = { "wireframes" })
+    @GetMapping(path = {"/get/wireframe/{wireframeId}"})
+    public ResponseEntity<byte[]> getImage(@PathVariable("wireframeId") Long wireframeId) throws IOException {
+
+        final Optional<Wireframe> dbImage = wireframeRepository.findById(wireframeId);
 
         return ResponseEntity
                 .ok()

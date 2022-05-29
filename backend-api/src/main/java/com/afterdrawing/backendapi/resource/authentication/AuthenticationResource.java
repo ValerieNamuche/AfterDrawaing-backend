@@ -10,8 +10,9 @@ import java.time.Instant;
 @AllArgsConstructor
 public class AuthenticationResource {
     private String authenticationToken;
-    private String refreshToken;
-    private Instant expiresAt;
+   // private Instant expiresAt;
+    private Long id;
     private String email;
-    private Boolean using2fa;
+    private String userName;
+    //private Boolean using2fa;
 }

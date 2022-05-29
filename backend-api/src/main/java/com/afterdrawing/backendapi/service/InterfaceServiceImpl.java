@@ -3,9 +3,11 @@ package com.afterdrawing.backendapi.service;
 import com.afterdrawing.backendapi.core.entity.Interface;
 import com.afterdrawing.backendapi.core.entity.Project;
 import com.afterdrawing.backendapi.core.entity.User;
+import com.afterdrawing.backendapi.core.entity.Wireframe;
 import com.afterdrawing.backendapi.core.repository.InterfaceRepository;
 import com.afterdrawing.backendapi.core.repository.ProjectRepository;
 import com.afterdrawing.backendapi.core.repository.UserRepository;
+import com.afterdrawing.backendapi.core.repository.WireframeRepository;
 import com.afterdrawing.backendapi.core.service.InterfaceService;
 import com.afterdrawing.backendapi.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class InterfaceServiceImpl implements InterfaceService {
     private ProjectRepository projectRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WireframeRepository wireframeRepository;
 
 
 
@@ -61,11 +65,13 @@ public class InterfaceServiceImpl implements InterfaceService {
     }
 
     @Override
-    public Interface saveInterface(Interface newInterface, Long userId, Long projectId) {
+    public Interface saveInterface(Interface newInterface, Long userId, Long projectId, Long wireframeId) {
         User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "Id", userId));
         Project project = projectRepository.findByIdAndUserId(projectId,userId).orElseThrow(()->new ResourceNotFoundException("Project", "Id", projectId));
+        Wireframe wireframe = wireframeRepository.findById(wireframeId).orElseThrow(()->new ResourceNotFoundException("Wireframe", "Id", wireframeId));
         newInterface.setProject(project);
         newInterface.setUser(user);
+        newInterface.setWireframe(wireframe);
         return interfaceRepository.save(newInterface);
     }
 

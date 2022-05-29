@@ -2,6 +2,7 @@ package com.afterdrawing.backendapi.controller;
 
 import com.afterdrawing.backendapi.resource.authentication.*;
 import com.afterdrawing.backendapi.service.AuthenticationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
 
+    @Operation(summary = "Create a user with encoded password (RECOMMENDED)", description = "Create a user with registered encoded paswword in the database")
     @PostMapping("/sign-up")
     public ResponseEntity<String> signUp(@RequestBody SignUpResource registrationRequest){
         authenticationService.signUp(registrationRequest);
@@ -24,28 +26,28 @@ public class AuthenticationController {
     }
 
     @PostMapping("/sign-in")
-    public AuthenticationResource signIn(@RequestBody SignInResource loginRequest){
+    public AuthenticationResource signIn(@RequestBody SignInResource loginRequest)  {
         return authenticationService.signIn(loginRequest);
     }
 
-    @PostMapping("/refresh-token")
+    /*@PostMapping("/refresh-token")
     public AuthenticationResource refreshToken(@Valid @RequestBody RefreshTokenResource refreshTokenRequest, Principal principal){
         String email = principal.getName();
         refreshTokenRequest.setEmail(email);
         return authenticationService.refreshToken(refreshTokenRequest);
-    }
+    }*/
 
-    @PostMapping("/sign-out")
+    /*@PostMapping("/sign-out")
     public ResponseEntity<String> signOut(@Valid @RequestBody RefreshTokenResource refreshTokenRequest){
         authenticationService.signOut(refreshTokenRequest);
         return ResponseEntity.status(HttpStatus.OK).body("Refresh token has been deleted");
-    }
+    }*/
 
-    @GetMapping("/verification/{token}")
+    /*@GetMapping("/verification/{token}")
     public ResponseEntity<String> verifyAccount(@PathVariable(name = "token") String token){
         authenticationService.verifyAccount(token);
         return new ResponseEntity<>("User account has been activated", HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping("/forgot-password")
     public ResponseEntity<String> forgotPassword(@Valid @RequestBody ForgotPasswordResource forgotPasswordRequest){
@@ -53,11 +55,11 @@ public class AuthenticationController {
         return new ResponseEntity<>("Petition sent", HttpStatus.OK);
     }
 
-    @PostMapping("/reset-password")
+    /*@PostMapping("/reset-password")
     public ResponseEntity<String> resetPassword(@Valid @RequestBody ResetPasswordResource resetPasswordRequest){
         authenticationService.resetPassword(resetPasswordRequest);
         return new ResponseEntity<>("Password changed", HttpStatus.OK);
-    }
+    }*/
 
     @PostMapping("/change-password")
     public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordResource changePasswordRequest, Principal principal){

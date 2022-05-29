@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface WireframeRepository extends JpaRepository<Wireframe,Long> {
-    Optional<Wireframe> findByName(String name); //String name
+    //Optional<Wireframe> findByName(String name); //String name
+    Optional<Wireframe> findById(Long wireframeId);
 }

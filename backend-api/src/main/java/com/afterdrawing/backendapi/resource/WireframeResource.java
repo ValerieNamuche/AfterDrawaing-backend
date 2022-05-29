@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class WireframeResource {
-
-    private String wireFrameName;
+    private Long id;
+    private String name;
 
 
     //private String route;

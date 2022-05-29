@@ -16,20 +16,25 @@ public class Interface {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 15)
+    @Size(max = 50)
     @Column(name = "interfaceName", nullable = false)
     private String interfaceName;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @JsonIgnore //Evita que se muestre el atributo al realizar un request get
     private Project project;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
 
+    @OneToOne
+    @JoinColumn(name = "wireframe_id", updatable = false, nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Wireframe wireframe;
 
 }

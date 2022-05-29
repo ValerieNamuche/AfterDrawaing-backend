@@ -20,17 +20,27 @@ public class Element {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 15)
-    @Column(name = "positionX", nullable = false)
-    private String positionX;
+    @Size(max = 50)
+    @Column(name = "name", nullable = false)
+    private String ClassName;
 
-    @Size(max = 15)
-    @Column(name = "positionY", nullable = false)
-    private String positionY;
+    //@Size(max = 15)
+    @Column(name = "positionX1", nullable = false)
+    private Float positionX1;
+
+    //@Size(max = 15)
+    @Column(name = "positionY1", nullable = false)
+    private Float positionY1;
+
+    @Column(name = "positionX2", nullable = false)
+    private Float positionX2;
+
+    @Column(name = "positionY2", nullable = false)
+    private Float positionY2;
 
     @Column(name = "element_type", nullable = false)
     @Size(max = 25)
-    private String elementType;
+    private Float elementType;
 
 
 
