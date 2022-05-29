@@ -1,0 +1,131 @@
+import 'package:flutter/material.dart';
+void main() => runApp(const MyApp());
+class MyApp extends StatelessWidget
+{
+    const MyApp({Key? key}) : super(key: key);
+    @override
+    Widget build(BuildContext context)
+    {
+        return MaterialApp
+            (
+            home: Scaffold
+                (
+                appBar: AppBar(),
+                body: Stack
+                    (
+                    children: <Widget>
+                        [
+                        Container
+                            (
+                            alignment: Alignment(0.02371358871459961, -0.582050621509552),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            alignment: Alignment(0.029796719551086426, 0.47105467319488525),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            alignment: Alignment(0.02966022491455078, 0.12082314491271973),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            alignment: Alignment(0.025374412536621094, 0.8189883232116699),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            child: Align
+                                (
+                                alignment: Alignment(0.09388720989227295, -0.4694369435310364),
+                                child: Text
+                                    (
+                                    'Some text here',
+                                    style: TextStyle(),
+                                    )
+                                )
+                            ),
+                        Container
+                            (
+                            alignment: Alignment(0.03277468681335449, -0.23544996976852417),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            alignment: Alignment(0.038283586502075195, -0.9249607920646667),
+                            padding: const EdgeInsets.all(10),
+                            child: Icon
+                                (
+                                Icons.mail_outline,
+                                size: 80.0,
+                                ),
+                            ),
+                        Container
+                            (
+                            child: Align
+                                (
+                                alignment: Alignment(0.06102609634399414, 0.5602681636810303),
+                                child: Text
+                                    (
+                                    'Some text here',
+                                    style: TextStyle(),
+                                    )
+                                )
+                            ),
+                        Container
+                            (
+                            child: Align
+                                (
+                                alignment: Alignment(0.09681594371795654, -0.12547308206558228),
+                                child: Text
+                                    (
+                                    'Some text here',
+                                    style: TextStyle(),
+                                    )
+                                )
+                            ),
+                        Container
+                            (
+                            child: Align
+                                (
+                                alignment: Alignment(0.07764554023742676, 0.9106205701828003),
+                                child: Text
+                                    (
+                                    'Some text here',
+                                    style: TextStyle(),
+                                    )
+                                )
+                            ),
+                        ]
+                    )
+                )
+            );
+    }
+}

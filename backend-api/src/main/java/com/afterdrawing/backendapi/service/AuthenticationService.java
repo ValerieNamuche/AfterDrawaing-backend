@@ -2,23 +2,20 @@ package com.afterdrawing.backendapi.service;
 
 import com.afterdrawing.backendapi.core.entity.PasswordResetToken;
 import com.afterdrawing.backendapi.core.entity.User;
-import com.afterdrawing.backendapi.core.entity.VerificationToken;
 import com.afterdrawing.backendapi.core.repository.PasswordResetTokenRepository;
 import com.afterdrawing.backendapi.core.repository.UserRepository;
-import com.afterdrawing.backendapi.core.repository.VerificationTokenRepository;
 import com.afterdrawing.backendapi.exception.ResourceNotFoundException;
 import com.afterdrawing.backendapi.resource.authentication.*;
-import com.afterdrawing.backendapi.sercurity.JwtProvider;
+import com.afterdrawing.backendapi.sercurity.JwtCenter;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,17 +28,20 @@ public class AuthenticationService {
 
 
 
-    private final VerificationTokenRepository verificationTokenRepository;
+
 
     private final PasswordResetTokenRepository passwordResetTokenRepository;
 
-    private final RefreshTokenService refreshTokenService;
 
 
+    private final UserDetailsServiceImpl userDetailsService;
 
     private final AuthenticationManager authenticationManager;
 
-    private final JwtProvider jwtProvider;
+    //@Autowired
+    private JwtCenter jwtCenter;
+
+
 
     @Transactional
     public void signUp(SignUpResource signUpResource) {
@@ -63,27 +63,39 @@ public class AuthenticationService {
 
     }
 
-    public AuthenticationResource signIn(SignInResource loginRequest) {
+    public AuthenticationResource signIn(SignInResource loginRequest)  {
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-        User user = userRepository.findByEmail(loginRequest.getEmail())
-                .orElseThrow(()->new ResourceNotFoundException("Invalid user"));
-        if(user.getUsing2FA()){
+
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
+
+        //if(passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
+            User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new ResourceNotFoundException("Invalid user"));
+
+        /*if(user.getUsing2FA()){
             return new AuthenticationResource("","",null,"", true);
-        }else {
+        }else {*/
             //
-            SecurityContextHolder.getContext().setAuthentication(authenticate);
-            String token = jwtProvider.generateToken(authenticate);
+            //SecurityContextHolder.getContext().setAuthentication(authenticate);
+            String token = jwtCenter.generateToken(userDetails);
+            //String token = jwtProvider.generateToken(authenticate);
 
             return new AuthenticationResource(
                     token,
-                    refreshTokenService.generateRefreshToken().getToken(),
-                    Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()),
+                    //Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()),
+                    //jwtCenter.getExpirationDate().toInstant(),
                     loginRequest.getEmail(),
-                    false);
-        }
+                    userDetails.getPassword()
+            );
+            //}
+        //} else {
+            //return new AuthenticationResource("","Credenciales incorrectas","");
+        //}
+
     }
 
-    public AuthenticationResource refreshToken(RefreshTokenResource refreshTokenRequest){
+    /*public AuthenticationResource refreshToken(RefreshTokenResource refreshTokenRequest){
         // Refresh the token
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
         String token = jwtProvider.generateTokenWithEmail(refreshTokenRequest.getEmail());
@@ -94,13 +106,13 @@ public class AuthenticationService {
                 Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()),
                 refreshTokenRequest.getEmail(),
                 false);
-    }
+    }*/
 
-    public void signOut(RefreshTokenResource refreshTokenRequest) {
+    /*public void signOut(RefreshTokenResource refreshTokenRequest) {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-    }
+    }*/
 
-    public void verifyAccount(String token) {
+    /*public void verifyAccount(String token) {
         // Checking token validation
         Optional<VerificationToken> verificationToken = verificationTokenRepository.findByToken(token);
         verificationToken.orElseThrow(() -> new ResourceNotFoundException("Invalid token"));
@@ -113,7 +125,7 @@ public class AuthenticationService {
             user.setEnabled(true);
             userRepository.save(user);
         }
-    }
+    }*/
 
     public void forgotPassword(ForgotPasswordResource forgotPasswordRequest) {
         // Getting user from email parameter
@@ -130,7 +142,7 @@ public class AuthenticationService {
         }
     }
 
-    public void resetPassword(ResetPasswordResource resetPasswordRequest) {
+    /*public void resetPassword(ResetPasswordResource resetPasswordRequest) {
         // Validating the token
         String token = resetPasswordRequest.getToken();
         Optional<PasswordResetToken> passwordResetToken = passwordResetTokenRepository.findByToken(token);
@@ -141,7 +153,7 @@ public class AuthenticationService {
         }else{
             throw new ResourceNotFoundException("Invalid token");
         }
-    }
+    }*/
 
     public void changePassword(String email, ChangePasswordResource changePasswordRequest) {
         // Validating user and passwords
@@ -163,16 +175,4 @@ public class AuthenticationService {
 
 
 
-
-    public String generateVerificationToken(User user) {
-        // Generating a new token
-        String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = new VerificationToken();
-        verificationToken.setToken(token);
-        verificationToken.setUser(user);
-
-        // Saving the token and returning it
-        verificationTokenRepository.save(verificationToken);
-        return token;
-    }
 }

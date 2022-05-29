@@ -31,7 +31,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Size(max = 25)
+    //@Size(max = 25)
     @Lob
     @Column(name = "password", nullable = false)
     private String password;

@@ -62,7 +62,7 @@ public class UserController {
     }
 
     //@Operation()
-    @Operation(summary = "Create User ", description = "Create a User", tags = { "users" })
+    @Operation(summary = "Create User (DON'T USE ,USE SIGN-UP FROM AUTHENTICATION-CONTROLLER)", description = "Create a User", tags = { "users" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User Created and returned", content = @Content(mediaType = "application/json"))
     })
