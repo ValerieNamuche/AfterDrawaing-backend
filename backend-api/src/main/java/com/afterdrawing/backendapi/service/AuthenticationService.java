@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -70,8 +71,8 @@ public class AuthenticationService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
 
         //if(passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-            User user = userRepository.findByEmail(loginRequest.getEmail())
-                    .orElseThrow(() -> new ResourceNotFoundException("Invalid user"));
+            /*User user = userRepository.findByEmail(loginRequest.getEmail())
+                    .orElseThrow(() -> new ResourceNotFoundException("Invalid user"));*/
 
         /*if(user.getUsing2FA()){
             return new AuthenticationResource("","",null,"", true);
