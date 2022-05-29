@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget
                             ),
                         Container
                             (
-                            alignment: Alignment(-0.02543848752975464, 0.6377860307693481),
+                            alignment: Alignment(-0.025438368320465088, 0.6377860307693481),
                             padding: const EdgeInsets.all(10),
                             child: TextButton
                                 (
@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget
                             (
                             child: Align
                                 (
-                                alignment: Alignment(-0.47588735818862915, 0.1608750820159912),
+                                alignment: Alignment(-0.4758874177932739, 0.1608750820159912),
                                 child: Text
                                     (
                                     'Some text here',

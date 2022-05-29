@@ -27,8 +27,8 @@ public class Wireframe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(max = 15)
-    @Column(name = "name", nullable = false)
+    @Size(max = 50)
+    @Column(name = "name", nullable = false, unique = false)
     private String name;
     //wireFrameName
     //columns for image
@@ -42,13 +42,13 @@ public class Wireframe {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "project_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @JsonIgnore //evita que se muestre este atributo
     private Project project;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
+    @JsonIgnore //evita que se muestre este atributo
     private User user;
 
     //classes and posiciones
