@@ -8,6 +8,7 @@ import com.afterdrawing.backendapi.exception.ResourceNotFoundException;
 import com.afterdrawing.backendapi.resource.authentication.*;
 import com.afterdrawing.backendapi.sercurity.JwtCenter;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -155,20 +156,22 @@ public class AuthenticationService {
         }
     }*/
 
-    public void changePassword(String email, ChangePasswordResource changePasswordRequest) {
+    public ResponseEntity<?> changePassword(Long userId, ChangePasswordResource changePasswordRequest) {
         // Validating user and passwords
-        Optional<User> user = userRepository.findByEmail(email);
-        if(!user.isEmpty()){
-            if(changePasswordRequest.getNewPassword().equals(changePasswordRequest.getNewPassword())){
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isPresent()){
+            if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.get().getPassword())){
                 // Changing user password
                 user.get().setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
                 userRepository.save(user.get());
+                return ResponseEntity.ok().body("Password changed");
             }else{
                 throw new ResourceNotFoundException("Invalid password");
             }
         }else{
             throw new ResourceNotFoundException("Invalid user");
         }
+
 
     }
 
