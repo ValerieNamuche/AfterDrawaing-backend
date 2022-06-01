@@ -46,6 +46,8 @@ public class Wireframe {
     @ElementCollection
     @CollectionTable(name ="wireframe_classes" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "classes")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> classes;
 
 
@@ -54,30 +56,40 @@ public class Wireframe {
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_x1" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "x1")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Float> X1;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_y1" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "y1")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Float> Y1;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_x2" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "x2")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Float> X2;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_classes_pos_y2" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "y2")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Float> Y2;
 
     @ElementCollection
     @CollectionTable(name ="wireframe_code_classes" , joinColumns=@JoinColumn(name="wireframe_id"))
     @Column(name = "code")
+    @JoinColumn(name = "wireframe_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<String> code;
 
 
