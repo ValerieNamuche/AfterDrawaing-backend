@@ -32,7 +32,7 @@ public class Interface {
     @JsonIgnore
     private User user;
 
-    @OneToOne
+    @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "wireframe_id", updatable = false, nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Wireframe wireframe;

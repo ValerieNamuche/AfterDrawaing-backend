@@ -17,7 +17,7 @@ public class UserResource {
 
     private String email;
 
-    private String password;
+    //private String password;
 
 
 

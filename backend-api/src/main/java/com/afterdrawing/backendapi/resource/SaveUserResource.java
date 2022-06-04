@@ -19,7 +19,7 @@ public class SaveUserResource {
     @Size(max = 25)
     @Column(name = "lastName", nullable = false)
     private String lastName;
-
+/*
     @Size(max = 50)
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -28,4 +28,5 @@ public class SaveUserResource {
     @Lob
     @Column(name = "password", nullable = false)
     private String password;
+*/
 }

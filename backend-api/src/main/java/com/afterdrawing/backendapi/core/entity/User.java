@@ -1,6 +1,7 @@
 package com.afterdrawing.backendapi.core.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class User {
 
 
     @Size(max = 25)
-    @Column(name = "userName", nullable = false, unique = true)
+    @Column(name = "userName", nullable = false, unique = false)
     private String userName;
 
     @Size(max = 25)
@@ -34,6 +35,7 @@ public class User {
     //@Size(max = 25)
     @Lob
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
 

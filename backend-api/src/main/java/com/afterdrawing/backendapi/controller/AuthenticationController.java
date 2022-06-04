@@ -14,6 +14,7 @@ import java.security.Principal;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/authentication")
+@CrossOrigin()
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -25,6 +26,7 @@ public class AuthenticationController {
         return new ResponseEntity<>("User registration was successfull", HttpStatus.OK);
     }
 
+    @Operation(summary = "Login", description = "login with valid user credentials")
     @PostMapping("/sign-in")
     public AuthenticationResource signIn(@RequestBody SignInResource loginRequest)  {
         return authenticationService.signIn(loginRequest);
@@ -61,11 +63,12 @@ public class AuthenticationController {
         return new ResponseEntity<>("Password changed", HttpStatus.OK);
     }*/
 
-    @PostMapping("/change-password")
-    public ResponseEntity<String> changePassword(@Valid @RequestBody ChangePasswordResource changePasswordRequest, Principal principal){
-        String username = principal.getName();
-        authenticationService.changePassword(username, changePasswordRequest);
-        return new ResponseEntity<>("Password changed", HttpStatus.OK);
+    @Operation(summary = "Change user's password ", description = "Change current user´s password for other given password, ")
+    @PostMapping("/change-password/{userId}")
+    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordResource changePasswordRequest, @PathVariable(name = "userId") Long userId){
+        //String username = principal.getName();
+        return authenticationService.changePassword(userId, changePasswordRequest);
+        //return new ResponseEntity<>("Password changed", HttpStatus.OK);
     }
 
 }
