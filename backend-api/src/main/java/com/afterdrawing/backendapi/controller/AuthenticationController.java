@@ -14,6 +14,7 @@ import java.security.Principal;
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/v1/authentication")
+@CrossOrigin()
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;

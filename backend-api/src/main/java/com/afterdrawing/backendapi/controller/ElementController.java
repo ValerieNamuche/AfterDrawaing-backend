@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin()
 public class ElementController {
     @Autowired
     private ModelMapper mapper;
